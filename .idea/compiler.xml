@@ -12,6 +12,7 @@
         <module name="common" />
         <module name="payment-8001" />
         <module name="eureka-7001" />
+        <module name="order-feign-80" />
         <module name="order-80" />
       </profile>
     </annotationProcessing>
