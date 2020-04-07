@@ -49,6 +49,11 @@ public class OrderController {
         return restTemplate.postForObject(PAYMENT_URL + "/payment/create", payment, CommonResult.class);
     }
 
+    @GetMapping(value = "/consumer/payment/timeout")
+    public String paymentFeignTimeout() {
+        return restTemplate.getForObject(PAYMENT_URL + "/payment/feign/timeout", String.class, (Object) null);
+    }
+
 //    @GetMapping("/consumer/payment/lb")
 //    public String getPaymentLB() {
 //        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
