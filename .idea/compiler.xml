@@ -10,10 +10,12 @@
         <module name="eureka-7002" />
         <module name="payment-8002" />
         <module name="common" />
+        <module name="order-hystrix-80" />
         <module name="payment-8001" />
         <module name="eureka-7001" />
         <module name="order-feign-80" />
         <module name="order-80" />
+        <module name="payment-hystrix-8001" />
       </profile>
     </annotationProcessing>
   </component>
