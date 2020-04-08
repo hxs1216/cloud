@@ -1,31 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0c850f4e-51ec-4124-bb10-30111d7f5ef9" name="Default Changelist" comment="feat:熔断机制">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-hystrix-80/order-hystrix-80.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-hystrix-80/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-hystrix-80/src/main/java/com/biyao/OrderHystrixMain80.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-hystrix-80/src/main/java/com/biyao/controller/OrderHystrixController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-hystrix-80/src/main/java/com/biyao/service/PaymentFallbackService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-hystrix-80/src/main/java/com/biyao/service/PaymentHystrixService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/payment-hystrix-8001/payment-hystrix-8001.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/payment-hystrix-8001/src/main/java/com/biyao/PaymentHystrixMain8001.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/payment-hystrix-8001/src/main/java/com/biyao/controller/PaymentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/payment-hystrix-8001/src/main/java/com/biyao/service/PaymentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0c850f4e-51ec-4124-bb10-30111d7f5ef9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/common.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ema.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-7001/eureka-7001.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-7002/eureka-7002.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-80/order-80.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-80/src/main/java/com/biyao/lb/LoadBalancer.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-80/src/main/java/com/biyao/lb/LoadBalancer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-80/target/classes/com/biyao/lb/MyLB.class" beforeDir="false" afterPath="$PROJECT_DIR$/order-80/target/classes/com/biyao/lb/MyLB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment-8001/payment-8001.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment-8002/payment-8002.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -53,11 +30,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3744">
-              <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
+            <state relative-caret-position="299">
+              <caret line="74" selection-start-line="74" selection-end-line="74" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gateway-9527/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="29" column="47" lean-forward="true" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/payment-hystrix-8001/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -90,8 +85,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/common/pom.xml" />
-        <option value="$PROJECT_DIR$/common/src/main/java/com/biyao/entities/CommonResult.java" />
         <option value="$PROJECT_DIR$/common/src/main/java/com/biyao/entities/Payment.java" />
         <option value="$PROJECT_DIR$/payment-8001/src/main/java/com/biyao/dao/PaymentDao.java" />
         <option value="$PROJECT_DIR$/payment-8001/src/main/java/com/biyao/service/PaymentService.java" />
@@ -141,6 +134,8 @@
         <option value="$PROJECT_DIR$/order-hystrix-80/src/main/java/com/biyao/service/PaymentFallbackService.java" />
         <option value="$PROJECT_DIR$/payment-hystrix-8001/src/main/java/com/biyao/service/PaymentService.java" />
         <option value="$PROJECT_DIR$/order-hystrix-80/src/main/java/com/biyao/controller/OrderHystrixController.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/gateway-9527/pom.xml" />
       </list>
     </option>
   </component>
@@ -159,6 +154,15 @@
   <component name="MavenProjectNavigator">
     <treeState>
       <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="ema" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="ema" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
           <item name="order-hystrix-80" type="9519ce18:MavenProjectsStructure$ProjectNode" />
@@ -190,6 +194,24 @@
             <path>
               <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
               <item name="cloud" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="gateway-9527" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="gateway-9527" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="gateway-9527" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -345,18 +367,39 @@
       <workItem from="1585653859421" duration="827000" />
       <workItem from="1585704887855" duration="10147000" />
       <workItem from="1586309579002" duration="7764000" />
-      <workItem from="1586337195917" duration="3507000" />
+      <workItem from="1586337195917" duration="4018000" />
     </task>
+    <task id="LOCAL-00001" summary="feat:熔断机制">
+      <created>1586340754957</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1586340754957</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat:熔断机制">
+      <created>1586340763463</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1586340763463</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat:熔断机制">
+      <created>1586340804977</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1586340804977</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50137000" />
+    <option name="totallyTimeSpent" value="50648000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49568966" visible="true" weight="0.22493573" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49568966" visible="true" weight="0.22493573" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -367,7 +410,7 @@
       <window_info id="Image Layers" order="8" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.59470755" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.13370474" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" weight="0.7942177" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -383,7 +426,7 @@
       <window_info anchor="bottom" id="Problems" order="15" />
       <window_info anchor="bottom" id="JRebel Executor" order="16" />
       <window_info anchor="bottom" id="JRebel Console" order="17" sideWeight="0.50075644" side_tool="true" weight="0.60544217" />
-      <window_info active="true" anchor="bottom" id="Run Dashboard" order="18" visible="true" weight="0.29387188" />
+      <window_info anchor="bottom" id="Run Dashboard" order="18" weight="0.29387188" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -441,6 +484,10 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat:熔断机制" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:熔断机制" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -466,16 +513,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/order-80/src/main/java/com/biyao/OrderMain80.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/cloud/spring-cloud-commons/2.2.1.RELEASE/spring-cloud-commons-2.2.1.RELEASE.jar!/org/springframework/cloud/client/loadbalancer/LoadBalanced.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
@@ -739,13 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/payment-hystrix-8001/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="22" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/order-80/src/main/resources/application.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="78">
@@ -863,8 +893,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3744">
-          <caret line="144" lean-forward="true" selection-start-line="144" selection-end-line="144" />
+        <state relative-caret-position="299">
+          <caret line="74" selection-start-line="74" selection-end-line="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gateway-9527/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="29" column="47" lean-forward="true" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/payment-hystrix-8001/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
         </state>
       </provider>
     </entry>
