@@ -32,8 +32,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.xzq.springcloud</groupId>
-            <artifactId>cloud-api-commons</artifactId>
+            <groupId>com.biyao</groupId>
+            <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
