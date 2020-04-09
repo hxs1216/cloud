@@ -12,3 +12,10 @@ eureka:
     service-url:
       defaultZone: http://eureka7001.com:7001/eureka/ #不集群 指向自己
   #      defaultZone: http://eureka7001.com:7001/eureka/, http://eureka7002.com:7002/eureka/ # 入驻地址 集
+
+#  在被监控的服务上添加暴露点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream

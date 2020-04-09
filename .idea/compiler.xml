@@ -10,8 +10,10 @@
         <module name="eureka-7002" />
         <module name="order-hystrix-80" />
         <module name="common" />
+        <module name="config-3344" />
         <module name="payment-8002" />
         <module name="eureka-7001" />
+        <module name="hystrix-dashboard-9001" />
         <module name="payment-8001" />
         <module name="order-feign-80" />
         <module name="gateway-9527" />
