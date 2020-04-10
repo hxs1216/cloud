@@ -13,10 +13,10 @@
         <module name="config-3344" />
         <module name="payment-8002" />
         <module name="eureka-7001" />
-        <module name="hystrix-dashboard-9001" />
         <module name="payment-8001" />
-        <module name="order-feign-80" />
         <module name="gateway-9527" />
+        <module name="order-feign-80" />
+        <module name="hystrix-dashboard-9001" />
         <module name="order-80" />
         <module name="payment-hystrix-8001" />
       </profile>
