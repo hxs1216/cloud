@@ -1,6 +1,8 @@
 package com.biyao.feign;
 
 import feign.RequestInterceptor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
 /**
  * feign配置
@@ -16,9 +18,9 @@ public class FeignConfig {
      */
     private static final String[] HEADER_NAMES = new String[]{"micro-service", "tq_app_id", "user_id", "client_b_v", "os", "imei", "token", "phone", "platform", "uuid"};
 
-//    @Bean
-//    @Primary
-//    public RequestInterceptor requestInterceptor() {
-//        return new HeaderInterceptor(HEADER_NAMES);
-//    }
+    @Bean
+    @Primary
+    public RequestInterceptor requestInterceptor() {
+        return new HeaderInterceptor(HEADER_NAMES);
+    }
 }

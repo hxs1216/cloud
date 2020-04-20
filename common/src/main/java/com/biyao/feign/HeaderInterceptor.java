@@ -1,9 +1,11 @@
 package com.biyao.feign;
 
+import com.biyao.util.ThreadTenantUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -25,7 +27,7 @@ public class HeaderInterceptor implements RequestInterceptor {
     }
 
     public void apply(RequestTemplate requestTemplate) {
-//        requestTemplate.header("tenant_code", new String[]{ThreadTenantUtil.getTenant()});
+        requestTemplate.header("tenant_code", new String[]{ThreadTenantUtil.getTenant()});
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (null != attributes && null != attributes.getRequest()) {
             HttpServletRequest request = attributes.getRequest();
