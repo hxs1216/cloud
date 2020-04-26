@@ -14,6 +14,7 @@
     <file url="file://$PROJECT_DIR$/payment-8001" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment-8002" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment-hystrix-8001" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tenancy" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

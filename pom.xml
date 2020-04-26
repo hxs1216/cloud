@@ -20,6 +20,7 @@
         <module>gateway-9527</module>
         <module>hystrix-dashboard-9001</module>
         <module>config-3344</module>
+        <module>tenancy</module>
     </modules>
     <packaging>pom</packaging>
 
