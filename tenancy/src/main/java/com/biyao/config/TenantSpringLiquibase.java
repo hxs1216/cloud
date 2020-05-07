@@ -34,12 +34,4 @@ public class TenantSpringLiquibase extends SpringLiquibase {
         watch.stop();
         logger.debug("Started Liquibase in {} ms", watch.getTotalTimeMillis());
     }
-
-    public static void main(String[] args) throws InterruptedException {
-        StopWatch watch = new StopWatch();
-        watch.start();
-        Thread.sleep(1000l);
-        watch.stop();
-        System.out.println(watch.getTotalTimeMillis());
-    }
 }

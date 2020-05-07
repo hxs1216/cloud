@@ -1,8 +1,7 @@
-package com.biyao.hibernate;
+package com.biyao.multi;
 
-import com.taoqi.common.constants.Constants;
-import com.taoqi.common.entity.DataSourceInfo;
-import com.taoqi.tenancy.config.properties.HikariProperties;
+import com.biyao.constants.Constants;
+import com.biyao.entities.DataSourceInfo;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.util.DriverDataSource;
@@ -16,12 +15,10 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
