@@ -1,4 +1,4 @@
-package com.biyao.properties;
+package com.biyao.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -28,3 +28,4 @@ public class LocalDataSourceProperties {
         this.properties = properties;
     }
 }
+
