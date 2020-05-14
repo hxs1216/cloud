@@ -1,4 +1,4 @@
-package com.biyao.hibernate;
+package com.biyao.multi.hibernate;
 
 import com.biyao.util.ThreadTenantUtil;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;

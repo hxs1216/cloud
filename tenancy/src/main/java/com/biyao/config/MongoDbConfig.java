@@ -2,6 +2,7 @@ package com.biyao.config;
 
 
 import com.biyao.config.properties.MongoProperties;
+import com.biyao.multi.mongo.MultiTenantMongoDbFactory;
 import com.biyao.multi.mongo.TenantMongoDatabaseProvider;
 import com.biyao.util.ThreadTenantUtil;
 import com.mongodb.Mongo;
@@ -27,16 +28,38 @@ import java.util.Optional;
 import static com.biyao.multi.TenantDataSourceProvider.DEFAULT_KEY;
 
 
-/**
- * @Author tanglh
- * @Date 2018/11/30 19:36
- */
 @Configuration
 @ConditionalOnProperty(prefix = "spring.data.mongodb", name = {"host", "port", "dbname"})
 public class MongoDbConfig extends AbstractMongoConfiguration {
 
     @Autowired
     private MongoProperties mongoProperties;
+
+    @Bean
+    @Override
+    public MongoTemplate mongoTemplate() throws Exception {
+        return mongoDbFactory().getMongoTemplate();
+    }
+
+    /**
+     * 覆盖默认的MongoDbFactory
+     */
+    @Bean
+    @Override
+    public MultiTenantMongoDbFactory mongoDbFactory() {
+        MultiTenantMongoDbFactory mongoDbFactory = new MultiTenantMongoDbFactory(mongo(), mongoProperties.getDbName());
+        mongoDbFactory.setMongoTemplate(new MongoTemplate(mongoDbFactory));
+        return mongoDbFactory;
+    }
+
+    @Bean
+    @Override
+    public CustomConversions customConversions() {
+        List<Converter<?, ?>> converters = new ArrayList<>();
+        converters.add(new DateToZonedDateTimeConverter());
+        converters.add(new ZonedDateTimeToDateConverter());
+        return new CustomConversions(converters);
+    }
 
     @Override
     public Mongo mongo() {
@@ -66,44 +89,12 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
         return new Mongo(mongoProperties.getHost().get(0), mongoProperties.getPort());
     }
 
-    @Bean
-    @Override
-    public MongoTemplate mongoTemplate() throws Exception {
-        return mongoDbFactory().getMongoTemplate();
-    }
-
-    /**
-     * 覆盖默认的MongoDbFactory
-     *
-     * @return
-     */
-    @Bean
-    @Override
-    public MultiTenantMongoDbFactory mongoDbFactory() {
-        MultiTenantMongoDbFactory mongoDbFactory = new MultiTenantMongoDbFactory(mongo(), mongoProperties.getDbName());
-        mongoDbFactory.setMongoTemplate(new MongoTemplate(mongoDbFactory));
-        return mongoDbFactory;
-    }
-
-
     /**
      * 获取当前数据库名
-     *
-     * @return
      */
     @Override
     protected String getDatabaseName() {
         return Optional.ofNullable(ThreadTenantUtil.getTenant()).orElse(mongoProperties.getDbName());
-    }
-
-
-    @Bean
-    @Override
-    public CustomConversions customConversions() {
-        List<Converter<?, ?>> converters = new ArrayList<>();
-        converters.add(new DateToZonedDateTimeConverter());
-        converters.add(new ZonedDateTimeToDateConverter());
-        return new CustomConversions(converters);
     }
 
     static class DateToZonedDateTimeConverter implements Converter<Date, ZonedDateTime> {
@@ -117,7 +108,7 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     static class ZonedDateTimeToDateConverter implements Converter<ZonedDateTime, Date> {
         @Override
         public Date convert(ZonedDateTime source) {
-            return Date.from(source.toInstant());
+            return java.util.Date.from(source.toInstant());
         }
     }
 }

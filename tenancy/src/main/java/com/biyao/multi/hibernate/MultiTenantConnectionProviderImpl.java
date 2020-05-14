@@ -1,6 +1,7 @@
-package com.biyao.hibernate;
+package com.biyao.multi.hibernate;
 
 
+import com.biyao.multi.TenantDataSourceProvider;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 
 import javax.sql.DataSource;

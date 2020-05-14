@@ -33,4 +33,10 @@ eureka:
   #    lease-expiration-duration-in-seconds: 2 # eureka
 
 
+logging:
+  level:
+    ROOT: INFO
+    com.biyao: DEBUG
+
+
 
