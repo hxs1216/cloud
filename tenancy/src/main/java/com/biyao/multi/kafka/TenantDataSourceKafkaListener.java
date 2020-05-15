@@ -1,13 +1,13 @@
 package com.biyao.multi.kafka;
 
-import com.taoqi.common.entity.BusinessPartInitNotifyDTO;
-import com.taoqi.common.entity.DataSourceInfo;
-import com.taoqi.common.service.TopicMessageService;
-import com.taoqi.common.util.IPUtil;
-import com.taoqi.common.util.JsonUtils;
-import com.taoqi.tenancy.service.InitTenantService;
-import com.taoqi.tenancy.service.TenantDataSourceService;
-import com.taoqi.tenancy.service.impl.SimpleInitTenantServiceImpl;
+import com.biyao.entities.BusinessPartInitNotifyDTO;
+import com.biyao.entities.DataSourceInfo;
+import com.biyao.service.InitTenantService;
+import com.biyao.service.TenantDataSourceService;
+import com.biyao.service.TopicMessageService;
+import com.biyao.service.impl.SimpleInitTenantServiceImpl;
+import com.biyao.util.IPUtil;
+import com.biyao.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -23,8 +23,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @Author tanglh
- * @Date 2018/12/19 18:01
+ * 功能描述 kafka初始化数据库
+ *
+ * @author hxs
+ * @date 2020/5/15
  */
 @Component
 @ConditionalOnProperty("spring.kafka.bootstrap-servers")
@@ -43,6 +45,7 @@ public class TenantDataSourceKafkaListener {
 
     @Autowired(required = false)
     private List<InitTenantService> initTenantServices;
+
     @Autowired
     private TenantDataSourceService tenantDataSourceService;
 
@@ -54,22 +57,18 @@ public class TenantDataSourceKafkaListener {
 
     /**
      * 监听通道信息 id生成 兼容低版本 group与高版本groupId
-     *
-     * @param record
      */
     @KafkaListener(
-        id = "tenantDataSourceKafkaListener-${spring.kafka.consumer.group-id}",
-        topics = "${spring.kafka.topics.tenant-data-source-info}")
+            id = "tenantDataSourceKafkaListener-${spring.kafka.consumer.group-id}",
+            topics = "${spring.kafka.topics.tenant-data-source-info}")
     public void tenantDataSourceKafkaListener(ConsumerRecord<?, String> record) {
-        log.info("tenantDataSourceKafkaListener:{}.", record);
+        log.info("tenantDataSourceKafkaListener:{}", record);
         Optional<String> kafkaMessage = Optional.ofNullable(record.value());
-        kafkaMessage.ifPresent(message -> initTenantInfo(JsonUtils.stringToObject(message, DataSourceInfo.class)));
+        kafkaMessage.ifPresent(message -> initTenantInfo(JsonUtil.stringToObject(message, DataSourceInfo.class)));
     }
 
     /**
      * 初始化
-     *
-     * @param dataSourceInfo
      */
     public void initTenantInfo(DataSourceInfo dataSourceInfo) {
         if (null == dataSourceInfo) {
@@ -80,10 +79,12 @@ public class TenantDataSourceKafkaListener {
             log.debug("is not this server:{} notify.", APP_NAME);
             return;
         }
+        // 初始化租户数据库Service
         if (CollectionUtils.isEmpty(initTenantServices)) {
             log.warn("initTenantServices is empty, cannot init.");
             return;
         }
+        // 数据库是否已存在
         if (tenantDataSourceService.checkDataSource(dataSourceInfo.getTenantCode(), dataSourceInfo.getType())) {
             log.info("tenant datasource is exist");
             return;
@@ -97,8 +98,9 @@ public class TenantDataSourceKafkaListener {
         callbackNotify.setType(dataSourceInfo.getType());
         StringBuilder detail = new StringBuilder();
         try {
+            // 设置数据库编码
             tenantDataSourceService.setDatabaseCharsetToConfig(dataSourceInfo.getDatabase());
-            initTenantServices.forEach(initTenantService ->{
+            initTenantServices.forEach(initTenantService -> {
                 if (!simpleInitTenantService.equals(initTenantService)) {
                     callbackNotify.setSuccess(initTenantService.initTenantInfo(dataSourceInfo));
                 }

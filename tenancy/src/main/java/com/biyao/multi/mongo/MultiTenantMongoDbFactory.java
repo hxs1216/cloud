@@ -16,31 +16,29 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.biyao.multi.TenantDataSourceProvider.DEFAULT_KEY;
+
 
 /**
- * 多租户mongoDb 工厂类
+ * 功能描述 多租户mongoDb工厂类
  *
- * @Author tanglh
- * @Date 2018/11/30 19:36
- **/
+ * @author hxs
+ * @date 2020/5/15
+ */
 public class MultiTenantMongoDbFactory extends SimpleMongoDbFactory {
 
     private static final Logger log = LoggerFactory.getLogger(MultiTenantMongoDbFactory.class);
+    private static final Map<String, String> databaseIndexMap = new ConcurrentHashMap<>();
 
     /**
      * 默认数据库名称
-     **/
+     */
     private final String defaultName;
 
     /**
      * MongoDB模板类
-     **/
+     */
     private MongoTemplate mongoTemplate;
-
-    /**
-     *
-     **/
-    private static final Map<String, String> databaseIndexMap = new ConcurrentHashMap<>();
 
     public MultiTenantMongoDbFactory(final Mongo mongo, final String defaultDatabaseName) {
         super(mongo, defaultDatabaseName);
@@ -68,7 +66,6 @@ public class MultiTenantMongoDbFactory extends SimpleMongoDbFactory {
     /**
      * 创建连接并使用
      *
-     * @param database
      */
     public void createIndexIfNecessaryFor(final String database) {
         if (this.mongoTemplate == null) {

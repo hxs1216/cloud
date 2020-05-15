@@ -1,5 +1,6 @@
 package com.biyao.multi.hibernate;
 
+import com.biyao.multi.TenantDataSourceProvider;
 import com.biyao.util.ThreadTenantUtil;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
