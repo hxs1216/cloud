@@ -1,5 +1,6 @@
 package com.biyao.multi;
 
+import com.biyao.config.properties.HikariProperties;
 import com.biyao.constants.Constants;
 import com.biyao.entities.DataSourceInfo;
 import com.zaxxer.hikari.HikariConfig;
@@ -15,10 +16,12 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,9 +66,6 @@ public class TenantDataSourceProvider implements BeanPostProcessor {
 
     /**
      * 根据传进来的tenantCode决定返回的数据源
-     *
-     * @param tenantCode
-     * @return
      */
     public static DataSource getTenantDataSource(String tenantCode) {
         if (StringUtils.isBlank(tenantCode)) {
@@ -125,14 +125,22 @@ public class TenantDataSourceProvider implements BeanPostProcessor {
         synchronized (dataSourceInfo.getTenantCode()) {
             if (DATA_SOURCE_MAP.containsKey(dataSourceInfo.getTenantCode())) {
                 if (BooleanUtils.isTrue(dataSourceInfo.getNeedOverride())) {
+                    // 存在-覆盖
                     removeDataSource(dataSourceInfo.getTenantCode());
+                } else {
+                    return;
                 }
-                return;
             }
+
+            // 构建数据源
             DataSource hikariDataSource = genDataSource(dataSourceInfo);
             DATA_SOURCE_MAP.put(dataSourceInfo.getTenantCode(), hikariDataSource);
+
+            // 动态注入Bean
             String beanName = dataSourceInfo.getTenantCode() + SUFFIX;
             this.registerBean(beanName, hikariDataSource);
+
+            // springboot动态数据源
             DynamicDataSource.getInstance().targetDataSources(DATA_SOURCE_MAP);
         }
     }
@@ -141,22 +149,19 @@ public class TenantDataSourceProvider implements BeanPostProcessor {
         try {
             // 动态注入Bean
             if (defaultListableBeanFactory.containsBean(beanName)) {
-                //移除bean的定义和实例
+                // 移除bean的定义和实例
                 defaultListableBeanFactory.removeBeanDefinition(beanName);
             }
             BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(hikariDataSource.getClass());
             beanDefinitionBuilder.setDestroyMethodName("close");
             defaultListableBeanFactory.registerBeanDefinition(beanName, beanDefinitionBuilder.getBeanDefinition());
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("registerBean failed", e);
         }
     }
 
     /**
      * 构建数据源
-     *
-     * @param dataSourceInfo
-     * @return
      */
     public DataSource genDataSource(DataSourceInfo dataSourceInfo) {
         log.info("addDataSource:{}", dataSourceInfo);
@@ -172,7 +177,7 @@ public class TenantDataSourceProvider implements BeanPostProcessor {
         HikariConfig hikariConfig = new HikariConfig();
         if (null != hikariProperties.getMaximumPoolSize()) {
             hikariConfig.setMaximumPoolSize(hikariProperties.getMaximumPoolSize());
-        } else if (defaultHikariDataSource.getMaximumPoolSize() > 0){
+        } else if (defaultHikariDataSource.getMaximumPoolSize() > 0) {
             hikariConfig.setMaximumPoolSize(defaultHikariDataSource.getMaximumPoolSize());
         }
         if (null != hikariProperties.getMinimumIdle()) {
@@ -180,7 +185,7 @@ public class TenantDataSourceProvider implements BeanPostProcessor {
         } else if (defaultHikariDataSource.getMinimumIdle() > 0) {
             hikariConfig.setMinimumIdle(defaultHikariDataSource.getMinimumIdle());
         }
-        //线下环境 配置
+        // 线下环境 配置
         if (isDevEnv()) {
             hikariConfig.setIdleTimeout(30000);
             hikariConfig.setConnectionTimeout(60000);
@@ -207,22 +212,21 @@ public class TenantDataSourceProvider implements BeanPostProcessor {
 
     /**
      * 添加默认数据源
-     *
-     * @param dataSource
      */
     public void addDefaultDataSource(DataSource dataSource) {
         if (DATA_SOURCE_MAP.containsKey(DEFAULT_KEY)) {
             return;
         }
+
+        // hibernate动态数据库
         DATA_SOURCE_MAP.put(DEFAULT_KEY, dataSource);
+
+        // springboot动态数据库
         DynamicDataSource.getInstance().setDefaultTargetDataSource(dataSource);
     }
 
     /**
      * 获取数据库名称
-     *
-     * @param tenantCode
-     * @return
      */
     public static String getDatabase(String tenantCode) {
         HikariDataSource dataSource = (HikariDataSource) getTenantDataSource(tenantCode);
@@ -246,15 +250,13 @@ public class TenantDataSourceProvider implements BeanPostProcessor {
 
     /**
      * 删除数据源
-     *
-     * @param tenantCode
      */
     public static void removeDataSource(String tenantCode) {
         if (StringUtils.isBlank(tenantCode)) {
             return;
         }
         if (DATA_SOURCE_MAP.containsKey(tenantCode) && !DEFAULT_KEY.equalsIgnoreCase(tenantCode)) {
-            ((HikariDataSource)DATA_SOURCE_MAP.get(tenantCode)).close();
+            ((HikariDataSource) DATA_SOURCE_MAP.get(tenantCode)).close();
             DATA_SOURCE_MAP.remove(tenantCode);
         }
     }

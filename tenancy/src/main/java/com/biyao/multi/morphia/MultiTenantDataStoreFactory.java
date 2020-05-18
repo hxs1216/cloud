@@ -1,8 +1,7 @@
 package com.biyao.multi.morphia;
 
-import com.mongodb.MongoClient;
-import com.taoqi.tenancy.config.MorphiaConfiguration;
-import com.taoqi.tenancy.multi.mongo.TenantMongoDatabaseProvider;
+import com.biyao.config.MorphiaConfiguration;
+import com.biyao.multi.mongo.TenantMongoDatabaseProvider;
 import org.mongodb.morphia.Datastore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.taoqi.tenancy.multi.TenantDataSourceProvider.DEFAULT_KEY;
+import static com.biyao.multi.TenantDataSourceProvider.DEFAULT_KEY;
 
 
 @Component
@@ -29,9 +28,6 @@ public class MultiTenantDataStoreFactory implements DataStoreFactory {
 
     @Autowired
     private Datastore datastore;
-
-    @Autowired
-    private MongoClient mongoClient;
 
     private static final Map<String, Datastore> dataStoreMap = new ConcurrentHashMap<>();
 
@@ -48,8 +44,6 @@ public class MultiTenantDataStoreFactory implements DataStoreFactory {
 
     /**
      * 获取dataStore
-     *
-     * @return
      */
     private Datastore getTenantDataStore() {
         String tenantDBName = Optional.ofNullable(TenantMongoDatabaseProvider.getDatabase()).orElse(TenantMongoDatabaseProvider.getDefaultDbName());

@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 多租户morphia 基础dao
+ * 功能描述 多租户morphia 基础dao
  *
- * @Author tanglh
- * @Date 2018/12/29 11:08
+ * @author hxs
+ * @date 2020/5/18
  */
 public class MultiTenantBasicDAO<T, K> implements DAO<T, K> {
 
