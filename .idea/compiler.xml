@@ -7,19 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="tenancy" />
-        <module name="eureka-7002" />
         <module name="order-hystrix-80" />
-        <module name="common" />
-        <module name="config-3344" />
-        <module name="payment-8002" />
-        <module name="eureka-7001" />
-        <module name="payment-8001" />
-        <module name="gateway-9527" />
-        <module name="order-feign-80" />
         <module name="hystrix-dashboard-9001" />
+        <module name="order-feign-80" />
+        <module name="security" />
+        <module name="tenancy" />
         <module name="order-80" />
+        <module name="config-3344" />
+        <module name="gateway-9527" />
+        <module name="eureka-7002" />
+        <module name="eureka-7001" />
         <module name="payment-hystrix-8001" />
+        <module name="payment-8002" />
+        <module name="payment-8001" />
+        <module name="common" />
       </profile>
     </annotationProcessing>
   </component>
