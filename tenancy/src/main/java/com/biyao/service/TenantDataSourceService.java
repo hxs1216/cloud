@@ -1,12 +1,14 @@
 package com.biyao.service;
 
+import com.biyao.config.properties.LocalDataSourceProperties;
+import com.biyao.config.properties.TenantConfigProperties;
 import com.biyao.constants.Constants;
 import com.biyao.entities.DataSourceInfo;
 import com.biyao.error.CommonException;
 import com.biyao.error.ErrorCode;
 import com.biyao.multi.TenantDataSourceProvider;
 import com.biyao.multi.mongo.TenantMongoDatabaseProvider;
-import com.biyao.properties.LocalDataSourceProperties;
+import com.biyao.util.IPUtil;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.apache.commons.lang3.BooleanUtils;
@@ -39,6 +41,9 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.biyao.config.properties.TenantConfigProperties.DEFAULT_HEADERS;
+import static com.biyao.config.properties.TenantConfigProperties.DEFAULT_REQUEST;
+import static com.biyao.constants.TenantRemote.UaaMethods.*;
 import static org.springframework.http.HttpMethod.GET;
 
 @Service
@@ -98,7 +103,6 @@ public class TenantDataSourceService {
         this.BASE_URL = tenantConfigProperties.getUaaBaseUrl();
         this.REST_TEMPLATE = tenantConfigProperties.getUaaRestTemplate();
     }
-
 
     /**
      * 添加数据源
@@ -431,41 +435,41 @@ public class TenantDataSourceService {
     /**
      * 定时任务每分钟执行上报数据源状态
      */
-    @Scheduled(initialDelay = 1000 * 60, fixedRate = 1000 * 60)
-    public void tenantDataSourceStatusTask() {
-        log.debug("tenantDataSourceStatusTask");
-        if (null != localDataSourceProperties.getProperties() && localDataSourceProperties.getProperties().size() > 0) {
-            log.info("has init local success. no need sync remote config");
-            return;
-        }
-        if (null == REST_TEMPLATE) {
-            log.warn("tenantConfigCenterRemoteProxy is null can't send dataSource to remote.");
-            return;
-        }
-        if (StringUtils.isEmpty(APP_NAME)) {
-            log.warn("server Name is null can't send dataSource to remote.");
-            return;
-        }
-        HttpEntity<TenantDataSourceWrapperDTO> formEntity = new HttpEntity<>(genAllValidTenantDataSourceWrapper(), DEFAULT_HEADERS);
-        ResponseEntity<List<DataSourceInfo>> response = REST_TEMPLATE.exchange(getRequestUri(TENANT_DATA_SOURCE_STATUS, APP_NAME), HttpMethod.POST, formEntity, LIST_DATA_SOURCE_INFO);
-        log.debug("response:{}", response);
-        if (response.getStatusCode().value() < HttpStatus.OK.value() || response.getStatusCode().value() > HttpStatus.MULTIPLE_CHOICES.value()) {
-            log.warn("send dataSource to remote error.");
-            //FIXME 异常告警通知
-        } else if (!CollectionUtils.isEmpty(response.getBody())) {
-            log.debug("send dataSource to remote success.");
-            List<DataSourceInfo> dataSourceInfoList = response.getBody();
-            dataSourceInfoList.forEach(this::addRemoteDataSource);
-            Map<String, DataSourceInfo> dataSourceInfoMap = dataSourceInfoList.stream().collect(Collectors.toMap(DataSourceInfo::getTenantCode, Function.identity(), (key1, key2) -> key2));
-            TenantDataSourceProvider.getDataSourceMap().keySet().forEach(key -> {
-                if (null == dataSourceInfoMap.get(key) && !TenantDataSourceProvider.getInitList().containsKey(key)) {
-                    TenantDataSourceProvider.removeDataSource(key);
-                }
-            });
-        } else {
-            log.warn("remote response is empty.");
-        }
-    }
+//    @Scheduled(initialDelay = 1000 * 60, fixedRate = 1000 * 60)
+//    public void tenantDataSourceStatusTask() {
+//        log.debug("tenantDataSourceStatusTask");
+//        if (null != localDataSourceProperties.getProperties() && localDataSourceProperties.getProperties().size() > 0) {
+//            log.info("has init local success. no need sync remote config");
+//            return;
+//        }
+//        if (null == REST_TEMPLATE) {
+//            log.warn("tenantConfigCenterRemoteProxy is null can't send dataSource to remote.");
+//            return;
+//        }
+//        if (StringUtils.isEmpty(APP_NAME)) {
+//            log.warn("server Name is null can't send dataSource to remote.");
+//            return;
+//        }
+//        HttpEntity<TenantDataSourceWrapperDTO> formEntity = new HttpEntity<>(genAllValidTenantDataSourceWrapper(), DEFAULT_HEADERS);
+//        ResponseEntity<List<DataSourceInfo>> response = REST_TEMPLATE.exchange(getRequestUri(TENANT_DATA_SOURCE_STATUS, APP_NAME), HttpMethod.POST, formEntity, LIST_DATA_SOURCE_INFO);
+//        log.debug("response:{}", response);
+//        if (response.getStatusCode().value() < HttpStatus.OK.value() || response.getStatusCode().value() > HttpStatus.MULTIPLE_CHOICES.value()) {
+//            log.warn("send dataSource to remote error.");
+//            //FIXME 异常告警通知
+//        } else if (!CollectionUtils.isEmpty(response.getBody())) {
+//            log.debug("send dataSource to remote success.");
+//            List<DataSourceInfo> dataSourceInfoList = response.getBody();
+//            dataSourceInfoList.forEach(this::addRemoteDataSource);
+//            Map<String, DataSourceInfo> dataSourceInfoMap = dataSourceInfoList.stream().collect(Collectors.toMap(DataSourceInfo::getTenantCode, Function.identity(), (key1, key2) -> key2));
+//            TenantDataSourceProvider.getDataSourceMap().keySet().forEach(key -> {
+//                if (null == dataSourceInfoMap.get(key) && !TenantDataSourceProvider.getInitList().containsKey(key)) {
+//                    TenantDataSourceProvider.removeDataSource(key);
+//                }
+//            });
+//        } else {
+//            log.warn("remote response is empty.");
+//        }
+//    }
 
     /**
      * 远程数据库添加到本地
@@ -505,106 +509,106 @@ public class TenantDataSourceService {
      *
      * @return
      */
-    private TenantDataSourceWrapperDTO genAllValidTenantDataSourceWrapper() {
-        log.info("genAllValidTenantDataSourceDetail ");
-        List<TenantDataSourceDetail> resultList = new ArrayList<>();
-        resultList.add(genAllValidTenantDataSourceDetail4MySql());
-        if (null != mongoProperties) {
-            resultList.add(genAllValidTenantDataSourceDetail4Mongo());
-        }
-        TenantDataSourceWrapperDTO result = new TenantDataSourceWrapperDTO();
-        result.setTenantDataSourceDetailList(resultList);
-        result.setIp(IPUtil.getServerIp());
-        result.setInstanceId(instanceId);
-        return result;
-    }
+//    private TenantDataSourceWrapperDTO genAllValidTenantDataSourceWrapper() {
+//        log.info("genAllValidTenantDataSourceDetail ");
+//        List<TenantDataSourceDetail> resultList = new ArrayList<>();
+//        resultList.add(genAllValidTenantDataSourceDetail4MySql());
+//        if (null != mongoProperties) {
+//            resultList.add(genAllValidTenantDataSourceDetail4Mongo());
+//        }
+//        TenantDataSourceWrapperDTO result = new TenantDataSourceWrapperDTO();
+//        result.setTenantDataSourceDetailList(resultList);
+//        result.setIp(IPUtil.getServerIp());
+//        result.setInstanceId(instanceId);
+//        return result;
+//    }
 
     /**
      * 获取MYSQL数据源明细
      *
      * @return
      */
-    private TenantDataSourceDetail genAllValidTenantDataSourceDetail4MySql() {
-        TenantDataSourceDetail result = new TenantDataSourceDetail();
-        Map<String, Object> dataSourceMap = new HashMap<>(4);
-
-        TenantDataSourceProvider.getDataSourceMap().forEach((key, value) -> {
-            HikariDataSource dataSource = (HikariDataSource) value;
-            DataSourceInfo dataSourceInfo = genDataSourceInfoByHikariDataSource(dataSource);
-            dataSourceInfo.tenantCode(key)
-                    .password(dataSource.getPassword())
-                    .serverName(APP_NAME)
-                    .database(TenantDataSourceProvider.getDatabase(key));
-            dataSourceInfo.setType(Constants.PROFILE_MYSQL);
-            dataSourceMap.put(key, dataSourceInfo);
-            Map<String, Object> objectMap = new HashMap<>(4);
-            objectMap.put("poolName", dataSource.getPoolName());
-            objectMap.put("dataSourceJNDI", dataSource.getDataSourceJNDI());
-            objectMap.put("healthCheckRegistry", dataSource.getHealthCheckRegistry());
-            objectMap.put("connectionInitSql", dataSource.getConnectionInitSql());
-            objectMap.put("dataSourceClassName", dataSource.getDataSourceClassName());
-            objectMap.put("connectionTimeout", dataSource.getConnectionTimeout());
-            objectMap.put("connectionTestQuery", dataSource.getConnectionTestQuery());
-            try {
-                objectMap.put("loginTimeout", dataSource.getLoginTimeout());
-            } catch (SQLException e) {
-                log.warn("get loginTimeout failed");
-            }
-            if (null != dataSource.getDataSourceProperties()) {
-                dataSource.getDataSourceProperties().forEach((k, v) -> objectMap.put(String.valueOf(k), v));
-            }
-            if (null != dataSource.getHealthCheckProperties()) {
-                dataSource.getHealthCheckProperties().forEach((k, v) -> objectMap.put(String.valueOf(k), v));
-            }
-            Properties properties = new Properties();
-            objectMap.forEach((k, v) -> {
-                if (null != v) {
-                    properties.put(k, String.valueOf(v));
-                }
-            });
-            dataSourceInfo.setProperties(properties);
-        });
-        result.setType(Constants.PROFILE_MYSQL);
-        result.setDataSourceMap(dataSourceMap);
-        result.setProperties(new Properties());
-        return result;
-    }
+//    private TenantDataSourceDetail genAllValidTenantDataSourceDetail4MySql() {
+//        TenantDataSourceDetail result = new TenantDataSourceDetail();
+//        Map<String, Object> dataSourceMap = new HashMap<>(4);
+//
+//        TenantDataSourceProvider.getDataSourceMap().forEach((key, value) -> {
+//            HikariDataSource dataSource = (HikariDataSource) value;
+//            DataSourceInfo dataSourceInfo = genDataSourceInfoByHikariDataSource(dataSource);
+//            dataSourceInfo.tenantCode(key)
+//                    .password(dataSource.getPassword())
+//                    .serverName(APP_NAME)
+//                    .database(TenantDataSourceProvider.getDatabase(key));
+//            dataSourceInfo.setType(Constants.PROFILE_MYSQL);
+//            dataSourceMap.put(key, dataSourceInfo);
+//            Map<String, Object> objectMap = new HashMap<>(4);
+//            objectMap.put("poolName", dataSource.getPoolName());
+//            objectMap.put("dataSourceJNDI", dataSource.getDataSourceJNDI());
+//            objectMap.put("healthCheckRegistry", dataSource.getHealthCheckRegistry());
+//            objectMap.put("connectionInitSql", dataSource.getConnectionInitSql());
+//            objectMap.put("dataSourceClassName", dataSource.getDataSourceClassName());
+//            objectMap.put("connectionTimeout", dataSource.getConnectionTimeout());
+//            objectMap.put("connectionTestQuery", dataSource.getConnectionTestQuery());
+//            try {
+//                objectMap.put("loginTimeout", dataSource.getLoginTimeout());
+//            } catch (SQLException e) {
+//                log.warn("get loginTimeout failed");
+//            }
+//            if (null != dataSource.getDataSourceProperties()) {
+//                dataSource.getDataSourceProperties().forEach((k, v) -> objectMap.put(String.valueOf(k), v));
+//            }
+//            if (null != dataSource.getHealthCheckProperties()) {
+//                dataSource.getHealthCheckProperties().forEach((k, v) -> objectMap.put(String.valueOf(k), v));
+//            }
+//            Properties properties = new Properties();
+//            objectMap.forEach((k, v) -> {
+//                if (null != v) {
+//                    properties.put(k, String.valueOf(v));
+//                }
+//            });
+//            dataSourceInfo.setProperties(properties);
+//        });
+//        result.setType(Constants.PROFILE_MYSQL);
+//        result.setDataSourceMap(dataSourceMap);
+//        result.setProperties(new Properties());
+//        return result;
+//    }
 
     /**
      * 获取MONGO数据源明细
      *
      * @return
      */
-    private TenantDataSourceDetail genAllValidTenantDataSourceDetail4Mongo() {
-        if (null == mongoProperties) {
-            return null;
-        }
-        TenantDataSourceDetail result = new TenantDataSourceDetail();
-        Properties properties = new Properties();
-
-        Map<String, Object> objectMap = new HashMap<>(4);
-        objectMap.put("defaultDbName", mongoProperties.getDbName());
-        objectMap.put("host", mongoProperties.getHost());
-        objectMap.put("name", mongoProperties.getName());
-        objectMap.put("password", mongoProperties.getPassword());
-        objectMap.put("replicaSet", mongoProperties.getReplicaSet());
-        objectMap.put("uri", mongoProperties.getUri());
-        objectMap.forEach((k, v) -> {
-            if (null != v) {
-                properties.put(k, String.valueOf(v));
-            }
-        });
-        Map<String, Object> dataSourceMap = new HashMap<>(4);
-
-        TenantMongoDatabaseProvider.getDatabaseIndexMap().forEach((key, value) -> {
-            Properties base = new Properties();
-            base.putAll(properties);
-            base.put(key, value);
-            dataSourceMap.put(key, base);
-        });
-        result.setDataSourceMap(dataSourceMap);
-        result.setType(Constants.PROFILE_MONGO);
-        result.setProperties(properties);
-        return result;
-    }
+//    private TenantDataSourceDetail genAllValidTenantDataSourceDetail4Mongo() {
+//        if (null == mongoProperties) {
+//            return null;
+//        }
+//        TenantDataSourceDetail result = new TenantDataSourceDetail();
+//        Properties properties = new Properties();
+//
+//        Map<String, Object> objectMap = new HashMap<>(4);
+//        objectMap.put("defaultDbName", mongoProperties.getDbName());
+//        objectMap.put("host", mongoProperties.getHost());
+//        objectMap.put("name", mongoProperties.getName());
+//        objectMap.put("password", mongoProperties.getPassword());
+//        objectMap.put("replicaSet", mongoProperties.getReplicaSet());
+//        objectMap.put("uri", mongoProperties.getUri());
+//        objectMap.forEach((k, v) -> {
+//            if (null != v) {
+//                properties.put(k, String.valueOf(v));
+//            }
+//        });
+//        Map<String, Object> dataSourceMap = new HashMap<>(4);
+//
+//        TenantMongoDatabaseProvider.getDatabaseIndexMap().forEach((key, value) -> {
+//            Properties base = new Properties();
+//            base.putAll(properties);
+//            base.put(key, value);
+//            dataSourceMap.put(key, base);
+//        });
+//        result.setDataSourceMap(dataSourceMap);
+//        result.setType(Constants.PROFILE_MONGO);
+//        result.setProperties(properties);
+//        return result;
+//    }
 }

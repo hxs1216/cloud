@@ -28,11 +28,13 @@ public class SimpleInitTenantServiceImpl implements InitTenantService {
     @Override
     public boolean initTenantInfo(DataSourceInfo dataSourceInfo) {
         log.info("simple init tenantInfo:{}", dataSourceInfo);
+
         // 使用springLiquibase初始化数据库
         if (Constants.PROFILE_MYSQL.equalsIgnoreCase(dataSourceInfo.getType())) {
             tenantDataSourceService.initDatabase(dataSourceInfo);
             tenantDataSourceService.addRemoteDataSource(dataSourceInfo);
         } else if (Constants.PROFILE_MONGO.equalsIgnoreCase(dataSourceInfo.getType()) && null != mongoProperties) {
+
             // mongo初始化
             TenantMongoDatabaseProvider.setDatabase(dataSourceInfo.getDatabase(), dataSourceInfo.getDatabase());
         }
