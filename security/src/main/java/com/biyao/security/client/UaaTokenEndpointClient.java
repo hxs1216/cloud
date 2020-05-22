@@ -1,6 +1,6 @@
 package com.biyao.security.client;
 
-import com.taoqi.security.config.SecurityProperties;
+import com.biyao.security.config.SecurityProperties;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,37 +14,37 @@ import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @ClassName: UaaTokenEndpointClient
- * @Description: oauth2 token相关接口实现
- * @author tyjuncai
- * @date 2018/12/18 10:50
+ * 功能描述 oauth2 token相关接口实现
+ *
+ * @author hxs
+ * @date 2020/5/20
  */
 @Component
 public class UaaTokenEndpointClient extends OAuth2TokenEndpointClientAdapter implements OAuth2TokenEndpointClient {
 
-	@Autowired
-	@Qualifier("oAuth2LoadBalancedRestTemplate")
-	private RestTemplate loadBalancedRestTemplate;
+    @Autowired
+    @Qualifier("oAuth2LoadBalancedRestTemplate")
+    private RestTemplate loadBalancedRestTemplate;
 
-	@Autowired
-	@Qualifier("oAuth2VanillaRestTemplate")
-	private RestTemplate vanillaRestTemplate;
+    @Autowired
+    @Qualifier("oAuth2VanillaRestTemplate")
+    private RestTemplate vanillaRestTemplate;
 
-	@Autowired
-	private SecurityProperties securityProperties;
+    @Autowired
+    private SecurityProperties securityProperties;
 
-	@PostConstruct
+    @PostConstruct
     public void init() {
-		if (null != securityProperties.getSecurity()) {
-			Boolean allowedRibbon = securityProperties.getSecurity().getClientAuthorization().getAllowedRibbon();
-			if (BooleanUtils.isTrue(allowedRibbon)) {
-				setProperties(loadBalancedRestTemplate, securityProperties);
-			} else {
-				setProperties(vanillaRestTemplate, securityProperties);
-			}
-		} else {
-			setProperties(vanillaRestTemplate, securityProperties);
-		}
+        if (null != securityProperties.getSecurity()) {
+            Boolean allowedRibbon = securityProperties.getSecurity().getClientAuthorization().getAllowedRibbon();
+            if (BooleanUtils.isTrue(allowedRibbon)) {
+                setProperties(loadBalancedRestTemplate, securityProperties);
+            } else {
+                setProperties(vanillaRestTemplate, securityProperties);
+            }
+        } else {
+            setProperties(vanillaRestTemplate, securityProperties);
+        }
     }
 
     @Override

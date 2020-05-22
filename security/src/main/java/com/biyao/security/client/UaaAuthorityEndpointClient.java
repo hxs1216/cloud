@@ -1,8 +1,8 @@
 package com.biyao.security.client;
 
-import com.taoqi.common.constants.Constants;
-import com.taoqi.security.config.SecurityProperties;
-import com.taoqi.security.provider.SecurityUtils;
+import com.biyao.security.config.SecurityProperties;
+import com.biyao.security.constant.Constants;
+import com.biyao.security.provider.SecurityUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,10 +15,10 @@ import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 /**
- * @author tyjuncai
- * @ClassName: UaaAuthorityEndpointClient
- * @Description: oauth2 权限相关接口实现
- * @date 2018/12/20 11:07
+ * 功能描述 oauth2 权限相关接口实现
+ *
+ * @author hxs
+ * @date 2020/5/21
  */
 @Component
 public class UaaAuthorityEndpointClient extends OAuth2AuthorityEndpointClientAdapter implements OAuth2AuthorityEndpointClient {

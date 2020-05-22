@@ -4,6 +4,7 @@ import com.biyao.security.constant.SecurityConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+
 /**
  * 功能描述 配置类
  *

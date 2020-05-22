@@ -1,14 +1,5 @@
 package com.biyao.security.config;
 
-import com.taoqi.security.exception.SecurityAccessDeniedHandler;
-import com.taoqi.security.exception.SecurityAuthenticateEntryPoint;
-import com.taoqi.security.filter.LoadAuthorityFilterConfigurer;
-import com.taoqi.security.filter.RefreshTokenFilterConfigurer;
-import com.taoqi.security.filter.ValidAuthorityFilterConfigurer;
-import com.taoqi.security.provider.transfer.AuthorizedBearerTokenExtractor;
-import com.taoqi.security.service.OAuth2AuthenticationService;
-import com.taoqi.security.service.OAuth2AuthorityService;
-import com.taoqi.security.service.OAuth2RemoteTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

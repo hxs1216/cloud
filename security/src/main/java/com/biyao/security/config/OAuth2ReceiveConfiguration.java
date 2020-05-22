@@ -1,7 +1,6 @@
 package com.biyao.security.config;
 
-import com.taoqi.security.filter.ResolverAuthorizedFilterConfigurer;
-import com.taoqi.security.provider.transfer.OAuth2AuthorizedAccepter;
+import com.biyao.security.filter.ResolverAuthorizedFilterConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;

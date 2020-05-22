@@ -1,6 +1,5 @@
 package com.biyao.security.config;
 
-import com.taoqi.security.exception.SecurityResponseErrorHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,61 +12,55 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @ClassName: OAuth2RestConfiguration
- * @Description: RestTemplate装配Bean
- * @author tyjuncai
- * @date 2018/12/18 11:24
+ * 功能描述 RestTemplate装配Bean
+ *
+ * @author hxs
+ * @date 2020/5/21
  */
 @Configuration
 @EnableConfigurationProperties(SecurityProperties.class)
 public class OAuth2RestConfiguration {
-	private static final Logger log = LoggerFactory.getLogger(OAuth2RestConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OAuth2RestConfiguration.class);
 
-	/**
-	 * 装配负载均衡RestTemplate
-	 *
-	 * @return
-	 */
-	@Bean
-	@LoadBalanced
-	@Qualifier("oAuth2LoadBalancedRestTemplate")
-	public RestTemplate oAuth2LoadBalancedRestTemplate() {
-		log.debug("oAuth2LoadBalancedRestTemplate");
-		RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory());
-		restTemplate.setErrorHandler(responseErrorHandler());
-		return restTemplate;
-	}
+    /**
+     * 装配负载均衡RestTemplate
+     */
+    @Bean
+    @LoadBalanced
+    @Qualifier("oAuth2LoadBalancedRestTemplate")
+    public RestTemplate oAuth2LoadBalancedRestTemplate() {
+        log.debug("oAuth2LoadBalancedRestTemplate");
+        RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory());
+        restTemplate.setErrorHandler(responseErrorHandler());
+        return restTemplate;
+    }
 
-	/**
-	 * 装配普通RestTemplate
-	 *
-	 * @return
-	 */
-	@Bean
-	@Qualifier("oAuth2VanillaRestTemplate")
-	public RestTemplate oAuth2VanillaRestTemplate() {
-		log.debug("oAuth2VanillaRestTemplate");
-		RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory());
-		restTemplate.setErrorHandler(responseErrorHandler());
-		return restTemplate;
-	}
+    /**
+     * 装配普通RestTemplate
+     */
+    @Bean
+    @Qualifier("oAuth2VanillaRestTemplate")
+    public RestTemplate oAuth2VanillaRestTemplate() {
+        log.debug("oAuth2VanillaRestTemplate");
+        RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory());
+        restTemplate.setErrorHandler(responseErrorHandler());
+        return restTemplate;
+    }
 
-	/**
-	 * 连接工厂
-	 * @return
-	 */
-	private SimpleClientHttpRequestFactory simpleClientHttpRequestFactory() {
-		SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-		factory.setReadTimeout(30000);
-		return factory;
-	}
+    /**
+     * 连接工厂
+     */
+    private SimpleClientHttpRequestFactory simpleClientHttpRequestFactory() {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setReadTimeout(30000);
+        return factory;
+    }
 
-	/**
-	 * 异常处理
-	 * @return
-	 */
-	private ResponseErrorHandler responseErrorHandler() {
-		ResponseErrorHandler responseErrorHandler = new SecurityResponseErrorHandler();
-		return responseErrorHandler;
-	}
+    /**
+     * 异常处理
+     */
+    private ResponseErrorHandler responseErrorHandler() {
+        ResponseErrorHandler responseErrorHandler = new SecurityResponseErrorHandler();
+        return responseErrorHandler;
+    }
 }
